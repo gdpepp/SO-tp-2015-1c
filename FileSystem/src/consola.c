@@ -1,7 +1,11 @@
 #include "consola.h"
 
-void textoVerde(int a){
-	const char *const verde = "\033[1;40;32m";
+void limpiarPantalla(void){
+	printf("\n"); // corrige BUG al limpiar la consola
+	system("clear");
+}
+void textoColor(int a){
+	const char *const verde = "\033[1;0;32m";
 	const char *const normal = "\033[0m";
 	if( a )
 		printf("%s", verde);
@@ -24,7 +28,7 @@ void pTitulo(char *titulo){
 		printf("%s", LINEA_H);
 	printf("%s\n", ESQUINA_SD);
 	printf("%s", LATERAL);
-	padding = div((WIDTH_CONSOLE - len), 2);
+	padding = div((WIDTH_CONSOLE - len), 2); // hace la divicion y guarda el entero y el resto en un tipo de estructura
 	for(i=0; i<padding.quot; i++)
 		printf(" ");
 	printf("%s", titulo);

@@ -15,7 +15,14 @@
 #define LATERAL_CD "╣"
 #define LINEA_H "═"
 
-void textoVerde(int a);
+void limpiarPantalla(void);
+
+/**
+ * @NAME: textoColor
+ * @DESC: Cambia el color del texto
+ */
+void textoColor(int a);
+
 void pLineaDivisora(void);
 void pTitulo(char *titulo);
 void pWhiteLine(void);
