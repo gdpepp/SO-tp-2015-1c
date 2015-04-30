@@ -28,7 +28,7 @@ int fileSize(const int filedescriptor)
 
 int main(void)
 {
-	char* fileName = "test.dat";
+	char* fileName = "/home/utnso/workspace/tp-2015-1c-compilopordinero/mmap/src/test.dat";
 	int fd;
 	char* mapeo;
 	int size;
