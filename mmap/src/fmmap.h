@@ -22,6 +22,6 @@
 #include <errno.h>
 
 char* mmapper(fileName);
-void munmapper(char* mapeo, char* fileName);
+void munmapper(char* mapeo);
 
 #endif
