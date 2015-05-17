@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <errno.h>
 #include <commons/string.h>
 #include <commons/config.h>
 #include <cxdcommons/general.h>
@@ -23,8 +24,10 @@ int main(int argc, char **argv) {
 	char* ip_fs;
 	int puerto_fs;
 
-	if( access( config_path, F_OK ) == -1 )
+	if( access( config_path, F_OK ) == -1 ){
 		perror("config_path"); // Error de acceso al archivo
+		exit(1);
+	}
 
 	config = config_create(config_path);
 	free(config_path);
