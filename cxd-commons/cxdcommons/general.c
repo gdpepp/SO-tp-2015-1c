@@ -5,6 +5,7 @@
 #include <limits.h>
 #include <string.h>
 #include <unistd.h>
+#include "general.h"
 
 char* getAppPath(const char* app_call){
 	char abs_exe_path[PATH_MAX];
