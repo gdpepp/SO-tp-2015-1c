@@ -14,12 +14,12 @@
 #include <commons/string.h>
 #include <commons/config.h>
 #include <cxdcommons/general.h>
+#include <cxdcommons/sockets.h>
 
 int main(int argc, char **argv) {
 	char* config_path = string_new();
 	string_append(&config_path, getAppPath(argv[0]));
 	string_append(&config_path, "/config.cfg");
-
 	t_config *config;
 	char* ip_fs;
 	int puerto_fs;
@@ -36,7 +36,6 @@ int main(int argc, char **argv) {
 
 	printf("La IP de FS es: %s\n", ip_fs);
 	printf("El puerto de FS es: %d\n", puerto_fs);
-
 
 	config_destroy(config);
 	return EXIT_SUCCESS;
