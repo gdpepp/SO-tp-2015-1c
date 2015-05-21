@@ -24,8 +24,31 @@
 	int conectarCon(char* ip, int puerto);
 
 	/**
+	 * @NAME: initListener
+	 * @DESC: inicia fichero para escuchar conexiones
+	 * @PARAMS:
+	 * 		port - puerto por el cual se escuchan las conexiones
+	 */
+	int initListener(int port);
+
+	/**
+	 * @NAME: iniciarConjuntosFicheros
+	 * @DESC: como dice el nombre de la función, inicializa los conjuntos de ficheros
+	 */
+	void iniciarConjuntosFicheros(void);
+
+	/**
+	 * @NAME: agregarFichero
+	 * @DESC: agregar fichero al conjuto maestro de ficheros
+	 * @PARAMS:
+	 * 		fichero - fichero a agregar
+	 */
+	void agregarFichero(int fichero);
+
+	/**
 	 * @NAME: cerrarConexion
-	 * @DESC: cierra conexion con referenciada a el fichero sockfd
+	 * @DESC: cierra conexion con el fichero sockfd y lo quita del conjunto maestro
+	 *		de ficheros si esta
 	 * @PARAMS:
 	 * 		sockfd - descriptor de fichero
 	 */
