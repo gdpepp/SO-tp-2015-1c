@@ -8,18 +8,10 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
-#include <netdb.h>
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
 #include <commons/string.h>
 #include "sockets.h"
 
 static char* serial_prop;
-static fd_set master;
-static fd_set read_fds;
-static int fdmax = 0;
 
 int conectarCon(char *ip, int puerto){
 	int sockfd;
@@ -75,24 +67,6 @@ int initListener(int port){
 		exit(1);
 	}
 	return listener;
-}
-
-void iniciarConjuntosFicheros(void){
-	FD_ZERO(&master);
-	FD_ZERO(&read_fds);
-}
-
-void agregarFichero(int fichero){
-	FD_SET(fichero, &master);
-	if( fichero > fdmax ){
-		fdmax = fichero;
-	}
-}
-
-void cerrarConexion(int sockfd){
-	close(sockfd);
-	if( FD_ISSET(sockfd, &master) )
-		FD_CLR(sockfd, &master);
 }
 
 t_msjcxd *iniciarMsj(const char *action){

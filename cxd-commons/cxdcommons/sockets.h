@@ -5,6 +5,11 @@
 #ifndef CXD_SOCKETS_H_
 #define CXD_SOCKETS_H_
 
+	#include <netdb.h>
+	#include <sys/types.h>
+	#include <netinet/in.h>
+	#include <sys/socket.h>
+	#include <arpa/inet.h>
 	#include <commons/collections/dictionary.h>
 
 	typedef struct {
@@ -30,29 +35,6 @@
 	 * 		port - puerto por el cual se escuchan las conexiones
 	 */
 	int initListener(int port);
-
-	/**
-	 * @NAME: iniciarConjuntosFicheros
-	 * @DESC: como dice el nombre de la función, inicializa los conjuntos de ficheros
-	 */
-	void iniciarConjuntosFicheros(void);
-
-	/**
-	 * @NAME: agregarFichero
-	 * @DESC: agregar fichero al conjuto maestro de ficheros
-	 * @PARAMS:
-	 * 		fichero - fichero a agregar
-	 */
-	void agregarFichero(int fichero);
-
-	/**
-	 * @NAME: cerrarConexion
-	 * @DESC: cierra conexion con el fichero sockfd y lo quita del conjunto maestro
-	 *		de ficheros si esta
-	 * @PARAMS:
-	 * 		sockfd - descriptor de fichero
-	 */
-	void cerrarConexion(int sockfd);
 
 	t_msjcxd *iniciarMsj(const char *action);
 	int agregarInfo(t_msjcxd *self, char *key, char *value);
