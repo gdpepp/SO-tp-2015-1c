@@ -13,7 +13,6 @@
 #include <netinet/in.h>
 #include "consola.h"
 #include <commons/string.h>
-#include <commons/config.h>
 #include <cxdcommons/general.h>
 #include <cxdcommons/sockets.h>
 //#include <bson.h>
@@ -23,7 +22,18 @@
 int printConsola(void);
 
 int main(int argc, char **argv) {
+	t_config *config;
+	//char* puerto_fs;
+	//int cantNodos_fs;
 	char opcion;
+
+	config = readConfigurationFile(argv);
+	//puerto_fs = config_get_string_value(config, "PUERTO_FS");
+	//cantNodos_fs = config_get_int_value(config, "CANTNODOS_FS");
+
+	//printf("El puerto de FS es: %s\n", puerto_fs);
+	//printf("La cantidad de nodos es: %d\n", cantNodos_fs);
+
 	textoColor(1); // cambia el color a verde
 	limpiarPantalla();
 	system("clear");
@@ -79,14 +89,11 @@ int main(int argc, char **argv) {
 			goto CONSOLA;
 		}
 
+
+
 	FIN:
 		textoColor(0);
 		limpiarPantalla();
-
-	readConfigurationFile(argc, **argv);
-
-
-
 
 		return EXIT_SUCCESS;
 }
@@ -124,33 +131,6 @@ void formatMDFS() {
 	pLineaDivisora();
 	pText("Ingresar opción deseada: \033[s", 3);
 	pFinConsola();
-}
-
-
-readConfigurationFile(int argc, char **argv) {
-	char* config_path = string_new();
-	string_append(&config_path, getAppPath(argv[0]));
-	string_append(&config_path, "/config.cfg");
-	t_config *config;
-	char* puerto_fs;
-	int cantNodos_fs;
-
-	if( access( config_path, F_OK ) == -1 ){
-		perror("config_path"); // Error de acceso al archivo
-		exit(1);
-	}
-
-	config = config_create(config_path);
-	free(config_path);
-	puerto_fs = config_get_string_value(config, "PUERTO_FS");
-	cantNodos_fs = config_get_int_value(config, "CANTNODOS_FS");
-
-	printf("El puerto de FS es: %s\n", puerto_fs);
-	printf("La cantidad de nodos es: %d\n", cantNodos_fs);
-
-	config_destroy(config);
-	return EXIT_SUCCESS;
-
 }
 
 
