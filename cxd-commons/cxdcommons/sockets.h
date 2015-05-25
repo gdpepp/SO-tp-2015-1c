@@ -5,6 +5,11 @@
 #ifndef CXD_SOCKETS_H_
 #define CXD_SOCKETS_H_
 
+	#include <netdb.h>
+	#include <sys/types.h>
+	#include <netinet/in.h>
+	#include <sys/socket.h>
+	#include <arpa/inet.h>
 	#include <commons/collections/dictionary.h>
 
 	typedef struct {
@@ -24,12 +29,12 @@
 	int conectarCon(char* ip, int puerto);
 
 	/**
-	 * @NAME: cerrarConexion
-	 * @DESC: cierra conexion con referenciada a el fichero sockfd
+	 * @NAME: initListener
+	 * @DESC: inicia fichero para escuchar conexiones
 	 * @PARAMS:
-	 * 		sockfd - descriptor de fichero
+	 * 		port - puerto por el cual se escuchan las conexiones
 	 */
-	void cerrarConexion(int sockfd);
+	int initListener(int port);
 
 	t_msjcxd *iniciarMsj(const char *action);
 	int agregarInfo(t_msjcxd *self, char *key, char *value);

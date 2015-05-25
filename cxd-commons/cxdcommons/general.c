@@ -23,3 +23,21 @@ char* getAppPath(const char* app_call){
 	}
 	return abs_exe_path;
 }
+
+t_config* readConfigurationFile(char **argv) {
+	char* config_path = string_new();
+	string_append(&config_path, getAppPath(argv[0]));
+	string_append(&config_path, "/config.cfg");
+	t_config *config;
+	char* puerto_fs;
+	int cantNodos_fs;
+
+	if( access( config_path, F_OK ) == -1 ){
+		perror("config_path"); // Error de acceso al archivo
+		exit(1);
+	}
+
+	config = config_create(config_path);
+	free(config_path);
+	return config;
+}
