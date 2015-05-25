@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
 				if( i == listener_jobs ){
 					// nueva conexion de un job
 					addrlen = sizeof(remoteaddr);
-					if( ( newjob = accept(listener_jobs, (struct sockaddr *)&remoteaddr, &addrlen) ) == -1 ){
+					if( ( newjob = accept(listener_jobs, (struct sockaddr *)&remoteaddr, (socklen_t *)&addrlen) ) == -1 ){
 						perror("accept");
 					}else{
 						FD_SET(newjob, &master);
