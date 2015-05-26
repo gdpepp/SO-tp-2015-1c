@@ -7,6 +7,8 @@
  Description : MapReduceTaskAdministrator
  ============================================================================
  */
+
+#include "thread_job.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -19,28 +21,26 @@
 
 int main(int argc, char **argv) {
 	t_config *config;
-	fd_set master, read_fds;
-	int fd_fs, listener_jobs, newjob, fdmax, addrlen, nbytes, i;
-	char buf[256];
+	fd_set read_fds;
+	int listener_jobs, newjob, fdmax, addrlen, i, iret, port_fs;
+	char* ip_fs;
 	struct sockaddr_in remoteaddr;
+	pthread_t thread;
+	t_arg_thread_job* arg_thread_job;
+	arg_thread_job = malloc(sizeof(t_arg_thread_job));
 
 	config = readConfigurationFile(argv);
 
-	FD_ZERO(&master);
 	FD_ZERO(&read_fds);
 
 	listener_jobs = initListener(PUERTO_JOBS);
-	FD_SET(listener_jobs, &master);
+	FD_SET(listener_jobs, &read_fds);
 	fdmax = listener_jobs;
 
-	fd_fs = conectarCon(config_get_string_value(config, "IP_FS"), config_get_int_value(config, "PUERTO_FS"));
-	FD_SET(fd_fs, &master);
-	if( fd_fs > fdmax )
-		fdmax = fd_fs;
+	ip_fs = config_get_string_value(config, "IP_FS");
+	port_fs = config_get_int_value(config, "PUERTO_FS");
 
-	// version sin hilos, hay que analizar donde empezar a meter los hilos
 	for(;;){
-		read_fds = master;
 		if( select(fdmax+1, &read_fds, NULL, NULL, NULL) == -1 ){
 			perror("select");
 			exit(1);
@@ -54,41 +54,23 @@ int main(int argc, char **argv) {
 					if( ( newjob = accept(listener_jobs, (struct sockaddr *)&remoteaddr, (socklen_t *)&addrlen) ) == -1 ){
 						perror("accept");
 					}else{
-						FD_SET(newjob, &master);
-						if( newjob > fdmax )
-							fdmax = newjob;
-					}
-				}else if( i == fd_fs ){
-					// FileSystem
-					if( (nbytes = recv(fd_fs, buf, sizeof(buf), 0)) <= 0 ){ // error o conexión cerrada por el FS
-						if( nbytes == 0 ){ // conexión cerrada
-							// aqui deberia volver a conectar
-						}else{
-							perror("recv");
+						strcpy(arg_thread_job->ip_filesystem, ip_fs);
+						arg_thread_job->port_filesystem = port_fs;
+						arg_thread_job->fd_job = newjob;
+
+						if( (iret = pthread_create( &thread, NULL, (void *) &thread_job_function, (void*) arg_thread_job))!=0 ){
+							fprintf(stderr,"Error - pthread_create() return code: %d\n",iret);
+							exit(EXIT_FAILURE);
 						}
-						close(fd_fs);
-						FD_CLR(fd_fs, &master);
-					}else{
-						// tenemos mensaje de FS
-					}
-				}else{
-					// Job
-					if( (nbytes = recv(i, buf, sizeof(buf), 0)) <= 0 ){ // error o conexión cerrada por el job
-						if( nbytes == 0 ){ // conexión cerrada
-							// ajam
-						}else{
-							perror("recv");
-						}
-						close(i);
-						FD_CLR(i, &master);
-					}else{
-						// tenemos mensaje de algun job
 					}
 				}
 			}
 		}
 	}
+
+	pthread_join( thread, NULL);
 	
 	config_destroy(config);
+	free(arg_thread_job);
 	return EXIT_SUCCESS;
 }
