@@ -12,11 +12,12 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include "consola.h"
-#include <commons/string.h>
+#include <string.h>
 #include <cxdcommons/general.h>
 #include <cxdcommons/sockets.h>
 //#include <bson.h>
 //#include <mongoc.h>
+
 
 
 int printConsola(void);
