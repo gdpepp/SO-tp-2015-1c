@@ -29,10 +29,15 @@ char* getAppPath(const char* app_call){
 }
 
 t_config* readConfigurationFile(char **argv) {
-	char* config_path = string_new();
-	string_append(&config_path, getAppPath(argv[0]));
-	string_append(&config_path, "/config.cfg");
+	int len;
 	t_config *config;
+	char* config_path = string_new();
+	
+	string_append(&config_path, getAppPath(argv[0]));
+	len = strlen(config_path);
+	config_path = string_substring_until(config_path, len-5);
+	string_append(&config_path, "/src/config.cfg");
+	
 
 	if( access( config_path, F_OK ) == -1 ){
 		perror("config_path"); // Error de acceso al archivo
