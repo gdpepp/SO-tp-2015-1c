@@ -11,7 +11,6 @@
 #include "thread_job.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <errno.h>
 #include <commons/string.h>
 #include <cxdcommons/general.h>
@@ -58,7 +57,8 @@ int main(int argc, char **argv) {
 						arg_thread_job->port_filesystem = port_fs;
 						arg_thread_job->fd_job = newjob;
 
-						if( (iret = pthread_create( &thread, NULL, (void *) &thread_job_function, (void*) arg_thread_job))!=0 ){
+						iret = pthread_create(&thread, NULL, (void *) &thread_job_function, (void*) arg_thread_job);
+						if( iret ){
 							fprintf(stderr,"Error - pthread_create() return code: %d\n",iret);
 							exit(EXIT_FAILURE);
 						}
