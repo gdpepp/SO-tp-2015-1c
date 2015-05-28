@@ -6,6 +6,7 @@
 #define CXD_SOCKETS_H_
 
 	#include <netdb.h>
+	#include <unistd.h>
 	#include <sys/types.h>
 	#include <netinet/in.h>
 	#include <sys/socket.h>
@@ -13,9 +14,9 @@
 	#include <commons/collections/dictionary.h>
 
 	typedef struct {
-		char *action;
+		char* action;
 		int id;
-		t_dictionary *properties;
+		t_dictionary* properties;
 	} t_msjcxd;
 
 	/**
@@ -37,6 +38,8 @@
 	int initListener(int port);
 
 	t_msjcxd *iniciarMsj(const char *action);
-	int agregarInfo(t_msjcxd *self, char *key, char *value);
+	int agregarInfo(t_msjcxd *self, const char *key, const char *value);
+	void sendMsj(t_msjcxd* self, int fichero);
+	t_msjcxd* recvMsj(int fichero);
 
 #endif

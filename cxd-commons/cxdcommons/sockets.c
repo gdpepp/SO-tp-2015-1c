@@ -5,7 +5,6 @@
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <errno.h>
 #include <string.h>
 #include <commons/string.h>
@@ -69,7 +68,7 @@ int initListener(int port){
 	return listener;
 }
 
-t_msjcxd *iniciarMsj(const char *action){
+t_msjcxd* iniciarMsj(const char *action){
 	t_msjcxd *msj = malloc(sizeof(t_msjcxd));
 
 	msj->action = strdup(action);
@@ -77,7 +76,7 @@ t_msjcxd *iniciarMsj(const char *action){
 	return msj;
 }
 
-int agregarInfo(t_msjcxd *self, char *key, char *value){
+int agregarInfo(t_msjcxd *self, const char *key, const char *value){
 	dictionary_put(self->properties, key, value);
 	return EXIT_SUCCESS;
 }
@@ -87,7 +86,7 @@ void _serializarpropiedades(char *key, char *data) {
 	string_append_with_format(&serial_prop, "%s=%s;", key, data);
 }
 
-static char* _serializeMsj(t_msjcxd *self){
+char *serializeMsj(t_msjcxd *self) {
 	char *buffer = string_new();
 	string_append_with_format(&buffer, "a:%s|", self->action);
 	string_append_with_format(&buffer, "i:%d|", self->id);
@@ -98,7 +97,7 @@ static char* _serializeMsj(t_msjcxd *self){
 	return buffer;
 }
 
-static t_msjcxd* _unserializeMsj(char *stream){
+t_msjcxd *unserializeMsj(char *stream) {
 	int i, len;
 	char *tmp_sincorchetes=string_new();
 	t_msjcxd *msj = malloc(sizeof(t_msjcxd));
@@ -127,5 +126,31 @@ static t_msjcxd* _unserializeMsj(char *stream){
 		}
 	}
 	free(tmp2);
+	return msj;
+}
+
+void sendMsj(t_msjcxd* self, int fichero){
+	char* msj_s = serializeMsj(self);
+	if( send(fichero, msj_s, strlen(msj_s), 0) == -1 ){
+		perror("send");
+		exit(1);
+	}
+}
+
+t_msjcxd* recvMsj(int fichero){
+	char buf[CHAR_MAX];
+	int nbytes;
+	t_msjcxd* msj;
+
+	if( (nbytes = recv(fichero, buf, sizeof(buf), 0)) <= 0 ){
+		if( nbytes == 0 ){
+			msj = iniciarMsj("conexion_cerrada");
+		}else{
+			perror("recv");
+			exit(1);
+		}
+	}else{
+		msj = unserializeMsj(buf);
+	}
 	return msj;
 }
