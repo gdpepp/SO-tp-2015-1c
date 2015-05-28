@@ -1,39 +1,30 @@
 /*
  ============================================================================
  Name        : FileSystem.c
- Author      : 
+ Author      : Compilo x Dinero
  Version     :
  Copyright   : Your copyright notice
  Description : FileSystem for ReduceMapFast
  ============================================================================
  */
+
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include "consola.h"
 #include <string.h>
+#include <commons/config.h>
 #include <cxdcommons/general.h>
 #include <cxdcommons/sockets.h>
+#include "consola.h"
+#include "opciones_consola.h"
 //#include <bson.h>
 //#include <mongoc.h>
-
 
 
 int printConsola(void);
 
 int main(int argc, char **argv) {
-	t_config *config;
-	//char* puerto_fs;
-	//int cantNodos_fs;
 	char opcion;
-
-	config = readConfigurationFile(argv);
-	//puerto_fs = config_get_string_value(config, "PUERTO_FS");
-	//cantNodos_fs = config_get_int_value(config, "CANTNODOS_FS");
-
-	//printf("El puerto de FS es: %s\n", puerto_fs);
-	//printf("La cantidad de nodos es: %d\n", cantNodos_fs);
+	//t_config *config;
+	//config = readConfigurationFile(argv);
 
 	textoColor(1); // cambia el color a verde
 	limpiarPantalla();
@@ -100,7 +91,7 @@ int main(int argc, char **argv) {
 }
 
 int printConsola(void) {
-	pTitulo("Bienvenid@ a la consola de FileSystem");
+	pTitulo("Consola de FileSystem");
 	pWhiteLine();
 	pOptionLine('1', "Formatear el MDFS.");
 	pOptionLine('2', "Eliminar/Renombrar/Mover un archivo.");
@@ -119,19 +110,6 @@ int printConsola(void) {
 	pFinConsola();
 	printf("\033[u");
 	return EXIT_SUCCESS;
-}
-
-
-void formatMDFS() {
-	pWhiteLine();
-	pTitulo("¿Seguro que desea borrar el MDFS?");
-	pOptionLine('y', "Borrar MDFS (no puede deshacerse)");
-	pOptionLine('n', "Cerrar programa.");
-	pWhiteLine();
-	pWhiteLine();
-	pLineaDivisora();
-	pText("Ingresar opción deseada: \033[s", 3);
-	pFinConsola();
 }
 
 

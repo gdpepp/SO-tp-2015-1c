@@ -19,10 +19,12 @@ void thread_job_function(void* param){
 
 	mensaje_recv = recvMsj(arg->fd_job);
 	if( strcmp(mensaje_recv->action, "conexion_cerrada") != 0 ){ // tenemos mensaje de job
-		mensaje_send = iniciarMsj("info_archivo");
-		agregarInfo(mensaje_send, "arch_name", dictionary_get(mensaje_recv->properties, "arch_name"));
-		sendMsj(mensaje_send, fd_filesystem);
-		// ...
+		if( strcmp(mensaje_recv->action, "inicio_pedido") != 0 ){
+			mensaje_send = iniciarMsj("info_archivo");
+			agregarInfo(mensaje_send, "arch_name", dictionary_get(mensaje_recv->properties, "arch_name"));
+			sendMsj(mensaje_send, fd_filesystem);
+			// ...
+		}
 	}else{ // conexión cerrada por el job
 		// ...
 		close(arg->fd_job);

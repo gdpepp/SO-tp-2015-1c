@@ -1,7 +1,7 @@
 /*
  ============================================================================
  Name        : MaRTA.c
- Author      : 
+ Author      : Compilo x Dinero
  Version     :
  Copyright   : Your copyright notice
  Description : MapReduceTaskAdministrator
@@ -12,14 +12,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
-#include <commons/string.h>
+#include <commons/config.h>
 #include <cxdcommons/general.h>
 #include <cxdcommons/sockets.h>
 
 #define PUERTO_JOBS 9000
 
-int main(int argc, char **argv) {
-	t_config *config;
+int main(int argc, char **argv){
+	t_config* config;
 	fd_set read_fds;
 	int listener_jobs, newjob, fdmax, addrlen, i, iret, port_fs;
 	char* ip_fs;
@@ -36,8 +36,8 @@ int main(int argc, char **argv) {
 	FD_SET(listener_jobs, &read_fds);
 	fdmax = listener_jobs;
 
-	ip_fs = config_get_string_value(config, "IP_FS");
-	port_fs = config_get_int_value(config, "PUERTO_FS");
+	ip_fs = config_get_string_value(config, "IP_FILESYSTEM");
+	port_fs = config_get_int_value(config, "PUERTO_FILESYSTEM");
 
 	for(;;){
 		if( select(fdmax+1, &read_fds, NULL, NULL, NULL) == -1 ){
@@ -71,6 +71,7 @@ int main(int argc, char **argv) {
 	pthread_join( thread, NULL);
 	
 	config_destroy(config);
+	free(ip_fs);
 	free(arg_thread_job);
 	return EXIT_SUCCESS;
 }

@@ -2,9 +2,13 @@
  * Copyright (C) 2015 Grupo Compilo por Dinero. All rights reserved.
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <limits.h>
 #include <string.h>
-#include <unistd.h>
+#include <commons/config.h>
+#include <commons/string.h>
 #include "general.h"
 
 char* getAppPath(const char* app_call){
@@ -29,8 +33,6 @@ t_config* readConfigurationFile(char **argv) {
 	string_append(&config_path, getAppPath(argv[0]));
 	string_append(&config_path, "/config.cfg");
 	t_config *config;
-	char* puerto_fs;
-	int cantNodos_fs;
 
 	if( access( config_path, F_OK ) == -1 ){
 		perror("config_path"); // Error de acceso al archivo

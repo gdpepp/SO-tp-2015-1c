@@ -1,5 +1,16 @@
+/*
+ ============================================================================
+ Name        : conexionConNodos.c
+ Author      : Compilo x Dinero
+ Version     :
+ Copyright   : Your copyright notice
+ Description :
+ ============================================================================
+ */
+
 #include <unistd.h>
 #include "consola.h"
+#include <commons/config.h>
 #include <commons/string.h>
 #include <commons/collections/list.h>
 #include <cxdcommons/general.h>

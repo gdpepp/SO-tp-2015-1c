@@ -1,5 +1,9 @@
-#ifndef _fconsola_
-#define _fconsola_
+/*
+ * Copyright (C) 2015 Grupo Compilo por Dinero. All rights reserved.
+ */
+
+#ifndef CXD_CONSOLA_H_
+#define CXD_CONSOLA_H_
 
 #include <stdio.h>
 #include <stdlib.h>

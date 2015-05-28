@@ -2,8 +2,8 @@
  * Copyright (C) 2015 Grupo Compilo por Dinero. All rights reserved.
  */
 
-#ifndef THREAD_JOB_H_
-#define THREAD_JOB_H_
+#ifndef CXD_THREAD_JOB_H_
+#define CXD_THREAD_JOB_H_
 
 	#include <string.h>
 	#include <pthread.h>

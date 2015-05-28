@@ -5,8 +5,6 @@
 #ifndef CXD_GENERAL_H_
 #define CXD_GENERAL_H_
 
-	#include <commons/config.h>
-
 	/**
 	 * @NAME: getAppPath
 	 * @DESC: Devuelve ruta absoluta del ejecutable

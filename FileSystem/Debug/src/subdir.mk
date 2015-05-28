@@ -6,24 +6,27 @@
 C_SRCS += \
 ../src/FileSystem.c \
 ../src/conexionConNodos.c \
-../src/consola.c 
+../src/consola.c \
+../src/opcion1.c 
 
 OBJS += \
 ./src/FileSystem.o \
 ./src/conexionConNodos.o \
-./src/consola.o 
+./src/consola.o \
+./src/opcion1.o 
 
 C_DEPS += \
 ./src/FileSystem.d \
 ./src/conexionConNodos.d \
-./src/consola.d 
+./src/consola.d \
+./src/opcion1.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
 src/%.o: ../src/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C Compiler'
-	gcc -I"/home/utnso/workspace/commons" -I"/home/utnso/workspace/tp-2015-1c-compilopordinero/cxd-commons" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	gcc -I"/home/utnso/workspace/tp-2015-1c-compilopordinero/cxd-commons" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

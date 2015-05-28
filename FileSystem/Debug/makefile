@@ -27,13 +27,12 @@ all: FileSystem
 
 dependents:
 	-cd /home/utnso/workspace/tp-2015-1c-compilopordinero/cxd-commons/Debug && $(MAKE) all
-	-cd /home/utnso/workspace/commons/Debug && $(MAKE) all
 
 # Tool invocations
-FileSystem: $(OBJS) $(USER_OBJS) /home/utnso/workspace/tp-2015-1c-compilopordinero/cxd-commons/Debug/libcxd-commons.so /home/utnso/workspace/commons/Debug/libcommons.so
+FileSystem: $(OBJS) $(USER_OBJS) /home/utnso/workspace/tp-2015-1c-compilopordinero/cxd-commons/Debug/libcxd-commons.so
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -L"/home/utnso/workspace/commons/Debug" -L"/home/utnso/workspace/tp-2015-1c-compilopordinero/cxd-commons/Debug" -o "FileSystem" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc -L"/home/utnso/workspace/tp-2015-1c-compilopordinero/cxd-commons/Debug" -o "FileSystem" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -45,6 +44,5 @@ clean:
 .PHONY: all clean dependents
 .SECONDARY:
 /home/utnso/workspace/tp-2015-1c-compilopordinero/cxd-commons/Debug/libcxd-commons.so:
-/home/utnso/workspace/commons/Debug/libcommons.so:
 
 -include ../makefile.targets
