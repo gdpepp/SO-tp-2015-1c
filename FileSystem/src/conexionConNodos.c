@@ -18,7 +18,7 @@ int conexionConNodos(argv) {
 	int readsocks;	     					/* Number of sockets ready for reading */
 	int new_fd;								/* Socket creado al aceptar conexiones */
 	struct sockaddr_in their_addr;
-
+	
 	/*********************************************************************************************************/
 
 		/* config = readConfigurationFile(argv); */
@@ -33,7 +33,10 @@ int conexionConNodos(argv) {
 		on that socket (which means you have to do accept(), etc. */
 
 	highsock = listener;
-	readsocks = select(highsock+1, &readfd, NULL, NULL, NULL);
+	timeout.tv_sec = 2;
+    timeout.tv_usec = 500000;
+    
+    readsocks = select(highsock+1, &readfd, NULL, NULL, &timeout);
 
 	if (readsocks < 0) {
 			perror("select");
