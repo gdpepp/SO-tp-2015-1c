@@ -76,7 +76,7 @@ t_msjcxd* iniciarMsj(const char *action){
 	return msj;
 }
 
-int agregarInfo(t_msjcxd *self, const char *key, const char *value){
+int agregarInfo(t_msjcxd *self, char *key, char *value){
 	dictionary_put(self->properties, key, value);
 	return EXIT_SUCCESS;
 }

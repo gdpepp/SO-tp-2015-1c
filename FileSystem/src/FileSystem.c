@@ -9,7 +9,6 @@
  */
 
 #include <unistd.h>
-#include <string.h>
 #include <commons/config.h>
 #include <cxdcommons/general.h>
 #include <cxdcommons/sockets.h>

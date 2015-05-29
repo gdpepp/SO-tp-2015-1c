@@ -18,7 +18,7 @@
 int main(int argc, char **argv) {
 	t_config *config;
 	int fd_marta, fdmax, iret;
-	//t_msjcxd* mensaje_recv;
+	t_msjcxd* mensaje_recv;
 	t_msjcxd* mensaje_send;
 	fd_set read_fds;
 	pthread_t thread;
@@ -47,14 +47,21 @@ int main(int argc, char **argv) {
 			exit(1);
 		}
 		if( FD_ISSET(fd_marta, &read_fds) ){
-			// if hilo mapper
-			iret = pthread_create(&thread, NULL, (void*) &hilo_mapper_function, (void*) arg_hilo_mapper);
-			if( iret ){
-				fprintf(stderr,"Error - pthread_create() return code: %d\n",iret);
-				exit(EXIT_FAILURE);
+			mensaje_recv = recvMsj(fd_marta);
+			if( strcmp(mensaje_recv->action, "hilo_mapper") == 0 ){
+				// crear arg_hilo_mapper
+				iret = pthread_create(&thread, NULL, (void*) &hilo_mapper_function, (void*) arg_hilo_mapper);
+				if( iret ){
+					fprintf(stderr,"Error - pthread_create() return code: %d\n",iret);
+					exit(EXIT_FAILURE);
+				}
+			}else if( strcmp(mensaje_recv->action, "ok_mapper") == 0 ){
+				break;
+			}else if( strcmp(mensaje_recv->action, "conexion_cerrada") == 0 ){
+				close(fd_marta);
+				// sacar del set
+				// volver a reconectar?
 			}
-			// if ok_mapper
-			break;
 		}
 	}
 	for(;;){
@@ -63,14 +70,22 @@ int main(int argc, char **argv) {
 			exit(1);
 		}
 		if( FD_ISSET(fd_marta, &read_fds) ){
-			// if hilo reduce
-			iret = pthread_create(&thread, NULL, (void*) &hilo_reduce_function, (void*) arg_hilo_reduce);
-			if( iret ){
-				fprintf(stderr,"Error - pthread_create() return code: %d\n",iret);
-				exit(EXIT_FAILURE);
+			mensaje_recv = recvMsj(fd_marta);
+			if( strcmp(mensaje_recv->action, "hilo_reduce") == 0 ){
+				// crear arg_hilo_reduce
+				iret = pthread_create(&thread, NULL, (void*) &hilo_reduce_function, (void*) arg_hilo_reduce);
+				if( iret ){
+					fprintf(stderr,"Error - pthread_create() return code: %d\n",iret);
+					exit(EXIT_FAILURE);
+				}
+			}else if( strcmp(mensaje_recv->action, "ok_reduce") == 0 ){
+				// MaRTA solicita a FS copiar el archivo de resultado al MDFS y avisa al Job el resultado de esa operacion.
+				break;
+			}else if( strcmp(mensaje_recv->action, "conexion_cerrada") == 0 ){
+				close(fd_marta);
+				// sacar del set
+				// volver a reconectar?
 			}
-			// if ok_reduce (MaRTA solicita a FS copiar el archivo de resultado al MDFS y avisa al Job el resultado de esa operacion.)
-			break;
 		}
 	}
 

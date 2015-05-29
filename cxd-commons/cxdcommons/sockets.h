@@ -38,7 +38,7 @@
 	int initListener(int port);
 
 	t_msjcxd *iniciarMsj(const char *action);
-	int agregarInfo(t_msjcxd *self, const char *key, const char *value);
+	int agregarInfo(t_msjcxd *self, char *key, char *value);
 	void sendMsj(t_msjcxd* self, int fichero);
 	t_msjcxd* recvMsj(int fichero);
 

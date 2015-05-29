@@ -9,12 +9,12 @@
  */
 
 #include <unistd.h>
-#include "consola.h"
 #include <commons/config.h>
 #include <commons/string.h>
 #include <commons/collections/list.h>
 #include <cxdcommons/general.h>
 #include <cxdcommons/sockets.h>
+#include "consola.h"
 
 #define PORT 9000
 
