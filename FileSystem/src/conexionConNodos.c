@@ -65,7 +65,11 @@ int conexionConNodos(argv) {
 				new_fd = accept(listener, (struct sockaddr *)&their_addr, sizeof their_addr);
 				FD_SET (new_fd, &readfd);	/* Agrego el nuevo socket a la coleccion de sockets readable */
 
+				//agrego ip-puerto del nodo a la lista
+				list_add(listaNodos, their_addr);
 			}
+
+
 
 		printf ("LA IP DEL CLIENTE ES: ");
 		printf (inet_ntoa(their_addr.sin_addr));
@@ -81,20 +85,12 @@ int conexionConNodos(argv) {
 }
 
 
-
-/*
-
-handleNewConnection() {
-
-	struct sockaddr_in their_addr;
-
-	if ((int socketNodo = accept(listener, their_addr, sizeof(struct sockaddr_in)))) < 0) {
-		perror("accept");
-		exit(EXIT_FAILURE);
+validarNodosMinimos() {
+	if (cantNodosMinimos <= list_size(listaNodos))
+		return EXIT_SUCCESS;
+	else {
+		perror("No hay cantidad de nodos minimos para la operacion");
+		return EXIT_FAILURE;
 	}
-
-	list_add(listaNodos, their_addr);
-	//agrega la info del nodo a la lista
 }
 
-*/

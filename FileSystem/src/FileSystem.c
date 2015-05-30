@@ -1,4 +1,4 @@
-/*
+ /*
  ============================================================================
  Name        : FileSystem.c
  Author      : Compilo x Dinero
@@ -17,13 +17,20 @@
 //#include <bson.h>
 //#include <mongoc.h>
 
+t_list listaNodos = list_create();
+int estadoFS;
+int cantNodosMinimos;
 
 int printConsola(void);
 
 int main(int argc, char **argv) {
 	char opcion;
 	//t_config *config;
-	//config = readConfigurationFile(argv);
+	
+	config = readConfigurationFile(argv);
+	cantNodosMinimos = config_get_int_value(config, CANT_NODOS);
+
+	estadoFS = validarNodosMinimos();
 
 	textoColor(1); // cambia el color a verde
 	limpiarPantalla();
