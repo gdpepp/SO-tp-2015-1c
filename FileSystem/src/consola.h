@@ -18,6 +18,8 @@
 	#define LATERAL_CI "╠"
 	#define LATERAL_CD "╣"
 	#define LINEA_H "═"
+ 	#define VERDE 1
+ 	#define NORMAL 0
 
 	void limpiarPantalla(void);
 

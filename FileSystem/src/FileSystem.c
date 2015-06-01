@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
 
 	estadoFS = validarNodosMinimos();
 
-	textoColor(1); // cambia el color a verde
+	textoColor(VERDE); // cambia el color a verde
 	limpiarPantalla();
 	system("clear");
 
@@ -90,7 +90,7 @@ int main(int argc, char **argv) {
 
 
 	FIN:
-		textoColor(0);
+		textoColor(NORMAL);
 		limpiarPantalla();
 
 		return EXIT_SUCCESS;

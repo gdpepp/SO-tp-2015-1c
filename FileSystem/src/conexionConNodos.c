@@ -32,7 +32,7 @@ int conexionConNodos(argv) {
 	
 	/*********************************************************************************************************/
 
-		/* config = readConfigurationFile(argv); */
+	// config = readConfigurationFile(argv);
 
 
 	listener = initListener(PORT);			/* Creo el socket listener */
@@ -50,35 +50,31 @@ int conexionConNodos(argv) {
     readsocks = select(highsock+1, &readfd, NULL, NULL, &timeout);
 
 	if (readsocks < 0) {
-			perror("select");
-			exit(EXIT_FAILURE);
+		perror("select");
+		exit(EXIT_FAILURE);
+	}
+	if (readsocks == 0) {
+		/* Nothing ready to read, just show that we're alive */
+		printf("NO HAY SOCKET ACTIVO");
+		fflush(stdout);
+	}else{
+		if (FD_ISSET(listener,&readfd)) {
+			/* Si el socket que se 'desperto' es el listener, entonces tengo que aceptar la nueva conexion */
+			new_fd = accept(listener, (struct sockaddr *)&their_addr, sizeof their_addr);
+			FD_SET (new_fd, &readfd);	/* Agrego el nuevo socket a la coleccion de sockets readable */
+
+			//agrego ip-puerto del nodo a la lista
+			list_add(listaNodos, their_addr);
 		}
-		if (readsocks == 0) {
-			/* Nothing ready to read, just show that
-			   we're alive */
-			printf("NO HAY SOCKET ACTIVO");
-			fflush(stdout);
-		} else
-			if (FD_ISSET(listener,&readfd)) {
-
-				/* Si el socket que se 'desperto' es el listener, entonces tengo que aceptar la nueva conexion */
-				new_fd = accept(listener, (struct sockaddr *)&their_addr, sizeof their_addr);
-				FD_SET (new_fd, &readfd);	/* Agrego el nuevo socket a la coleccion de sockets readable */
-
-				//agrego ip-puerto del nodo a la lista
-				list_add(listaNodos, their_addr);
-			}
-
-
 
 		printf ("LA IP DEL CLIENTE ES: ");
 		printf (inet_ntoa(their_addr.sin_addr));
-
-		/* Hasta aca estaria cubierto el tema de agregar conexiones entrantes nuevas con el Select,
-		 * ya que solo preguntamos con FD_ISSET por el listener (ver primer parametro de la funcion).
-		 * Para enviar y recibir datos habria que preguntar, si entendi bien, por los otros sockets que
-		 * estan en la coleccion. VER EJEMPLO BEEJ
-		 */
+	}
+	/* Hasta aca estaria cubierto el tema de agregar conexiones entrantes nuevas con el Select,
+	 * ya que solo preguntamos con FD_ISSET por el listener (ver primer parametro de la funcion).
+	 * Para enviar y recibir datos habria que preguntar, si entendi bien, por los otros sockets que
+	 * estan en la coleccion. VER EJEMPLO BEEJ
+	 */
 
 	
 	return EXIT_SUCCESS;

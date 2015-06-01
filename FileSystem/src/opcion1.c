@@ -10,13 +10,14 @@
 
 #include <unistd.h>
 #include "consola.h"
+#include "opciones_consola.h"
 
 int formatMDFS(void) {
 	pTitulo("Consola de FileSystem");
 	pWhiteLine();
 	pText("¿Seguro que desea borrar el MDFS?:", 0);
-	pOptionLine('y', "Borrar MDFS (no puede deshacerse)");
-	pOptionLine('n', "Cerrar programa.");
+	pOptionLine('y', "Borrar MDFS (no puede deshacerse).");
+	pOptionLine('n', "Cancelar.");
 	pWhiteLine();
 	pWhiteLine();
 	pLineaDivisora();
