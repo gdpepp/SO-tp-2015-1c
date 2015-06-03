@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <commons/config.h>
 #include <cxdcommons/general.h>
 #include <cxdcommons/sockets.h>
@@ -90,6 +91,7 @@ int main(int argc, char **argv) {
 	}
 
 	// Mostrar datos del proceso Job en pantalla y/o archivo de log (ver tabla pag 10).
+	//close(fd_marta);
 
 	return EXIT_SUCCESS;
 }
