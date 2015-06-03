@@ -10,6 +10,7 @@
 
 void thread_job_function(void* param){
 	int fd_filesystem;
+	//extern pthread_mutex_t pantalla;
 	t_msjcxd* mensaje_recv;
 	t_msjcxd* mensaje_send;
 	t_arg_thread_job* arg;
@@ -27,6 +28,9 @@ void thread_job_function(void* param){
 		}
 	}else{ // conexión cerrada por el job
 		// ...
+		/*pthread_mutex_lock( &pantalla );
+		printf("Conexion cerrada (thread_id: %ld).\n", pthread_self());
+		pthread_mutex_unlock( &pantalla );*/
 		close(arg->fd_job);
 	}
 }

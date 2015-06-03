@@ -17,11 +17,12 @@
 #include <cxdcommons/sockets.h>
 
 #define PUERTO_JOBS 9000
+pthread_mutex_t pantalla = PTHREAD_MUTEX_INITIALIZER;
 
 int main(int argc, char **argv){
 	t_config* config;
 	fd_set read_fds;
-	int listener_jobs, newjob, fdmax, addrlen, i, iret, port_fs;
+	int listener_jobs, newjob, fdmax, addrlen, iret, port_fs;
 	char* ip_fs;
 	struct sockaddr_in remoteaddr;
 	pthread_t thread;
@@ -44,25 +45,19 @@ int main(int argc, char **argv){
 			perror("select");
 			exit(1);
 		}
+		if( FD_ISSET(listener_jobs, &read_fds) ){ // nueva conexion de un job
+			addrlen = sizeof(remoteaddr);
+			if( ( newjob = accept(listener_jobs, (struct sockaddr *)&remoteaddr, (socklen_t *)&addrlen) ) == -1 ){
+				perror("accept");
+			}else{
+				strcpy(arg_thread_job->ip_filesystem, ip_fs);
+				arg_thread_job->port_filesystem = port_fs;
+				arg_thread_job->fd_job = newjob;
 
-		for(i = 0; i <= fdmax; i++){
-			if( FD_ISSET(i, &read_fds) ){
-				if( i == listener_jobs ){
-					// nueva conexion de un job
-					addrlen = sizeof(remoteaddr);
-					if( ( newjob = accept(listener_jobs, (struct sockaddr *)&remoteaddr, (socklen_t *)&addrlen) ) == -1 ){
-						perror("accept");
-					}else{
-						strcpy(arg_thread_job->ip_filesystem, ip_fs);
-						arg_thread_job->port_filesystem = port_fs;
-						arg_thread_job->fd_job = newjob;
-
-						iret = pthread_create(&thread, NULL, (void *) &thread_job_function, (void*) arg_thread_job);
-						if( iret ){
-							fprintf(stderr,"Error - pthread_create() return code: %d\n",iret);
-							exit(EXIT_FAILURE);
-						}
-					}
+				iret = pthread_create(&thread, NULL, (void *) &thread_job_function, (void*) arg_thread_job);
+				if( iret ){
+					fprintf(stderr,"Error - pthread_create() return code: %d\n",iret);
+					exit(EXIT_FAILURE);
 				}
 			}
 		}
