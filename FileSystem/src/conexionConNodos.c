@@ -18,10 +18,9 @@
 
 #define PORT 9000
 
-
 int conexionConNodos(argv) {
-	
-	t_config *config;
+	extern t_list* listaNodos_limbo;
+	//t_config *config;
 	int listener; 							/* listener = fd del socket que genera para escuchar */
 	fd_set readfd;							/* Socket file descriptors we want to wake up for, using select() */
 	int highsock;							/* Highest #'d file descriptor, needed for select() */
@@ -29,6 +28,7 @@ int conexionConNodos(argv) {
 	int readsocks;	     					/* Number of sockets ready for reading */
 	int new_fd;								/* Socket creado al aceptar conexiones */
 	struct sockaddr_in their_addr;
+	int addrlen;
 	
 	/*********************************************************************************************************/
 
@@ -60,15 +60,15 @@ int conexionConNodos(argv) {
 	}else{
 		if (FD_ISSET(listener,&readfd)) {
 			/* Si el socket que se 'desperto' es el listener, entonces tengo que aceptar la nueva conexion */
-			new_fd = accept(listener, (struct sockaddr *)&their_addr, sizeof their_addr);
+			addrlen = sizeof(their_addr);
+			new_fd = accept(listener, (struct sockaddr *)&their_addr, (socklen_t *)&addrlen);
 			FD_SET (new_fd, &readfd);	/* Agrego el nuevo socket a la coleccion de sockets readable */
 
 			//agrego ip-puerto del nodo a la lista
-			list_add(listaNodos, their_addr);
+			list_add(listaNodos_limbo, &their_addr);
 		}
 
-		printf ("LA IP DEL CLIENTE ES: ");
-		printf (inet_ntoa(their_addr.sin_addr));
+		printf("LA IP DEL CLIENTE ES: %s\n", inet_ntoa(their_addr.sin_addr));
 	}
 	/* Hasta aca estaria cubierto el tema de agregar conexiones entrantes nuevas con el Select,
 	 * ya que solo preguntamos con FD_ISSET por el listener (ver primer parametro de la funcion).
@@ -81,12 +81,12 @@ int conexionConNodos(argv) {
 }
 
 
-validarNodosMinimos() {
-	if (cantNodosMinimos <= list_size(listaNodos))
-		return EXIT_SUCCESS;
-	else {
-		perror("No hay cantidad de nodos minimos para la operacion");
-		return EXIT_FAILURE;
-	}
+int validarNodosMinimos(void) {
+	extern int cantNodosMinimos;
+	extern t_list* listaNodos_ok;
+	if( cantNodosMinimos <= list_size(listaNodos_ok) )
+		return 1;
+	else
+		return 0;
 }
 

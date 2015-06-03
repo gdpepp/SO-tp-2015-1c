@@ -9,7 +9,7 @@
  */
 
 #include <unistd.h>
-#include <commons/config.h>
+#include "thread_escuchas.h"
 #include <cxdcommons/general.h>
 #include <cxdcommons/sockets.h>
 #include "consola.h"
@@ -17,20 +17,30 @@
 //#include <bson.h>
 //#include <mongoc.h>
 
-t_list listaNodos = list_create();
-int estadoFS;
+int estadoFS = 0;
 int cantNodosMinimos;
+t_list* listaNodos_limbo;
+t_list* listaNodos_ok;
 
 int printConsola(void);
 
 int main(int argc, char **argv) {
+	int iret;
 	char opcion;
-	//t_config *config;
+	t_config *config;
+	pthread_t thread_escuchas;
 	
-	config = readConfigurationFile(argv);
-	cantNodosMinimos = config_get_int_value(config, CANT_NODOS);
+	listaNodos_limbo = list_create();
+	listaNodos_ok = list_create();
 
-	estadoFS = validarNodosMinimos();
+	config = readConfigurationFile(argv);
+	cantNodosMinimos = config_get_int_value(config, "CANT_NODOS");
+
+	iret = pthread_create(&thread_escuchas, NULL, (void *) &f_thread_escuchas, (void*) config);
+	if( iret ){
+		fprintf(stderr,"Error - pthread_create() return code: %d\n",iret);
+		exit(EXIT_FAILURE);
+	}
 
 	textoColor(VERDE); // cambia el color a verde
 	limpiarPantalla();
@@ -92,6 +102,8 @@ int main(int argc, char **argv) {
 	FIN:
 		textoColor(NORMAL);
 		limpiarPantalla();
+
+		pthread_join( thread_escuchas, NULL);
 
 		return EXIT_SUCCESS;
 }

@@ -3,7 +3,6 @@
 	<name>FileSystem</name>
 	<comment></comment>
 	<projects>
-		<project>commons</project>
 		<project>cxd-commons</project>
 	</projects>
 	<buildSpec>
