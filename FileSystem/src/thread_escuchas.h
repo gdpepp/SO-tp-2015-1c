@@ -8,6 +8,7 @@
 #ifndef SRC_THREAD_ESCUCHAS_H_
 #define SRC_THREAD_ESCUCHAS_H_
 
+	#include <stdbool.h>
 	#include <pthread.h>
 	#include <commons/config.h>
 	#include <commons/collections/list.h>
@@ -18,8 +19,17 @@
 		int fichero;
 		char ip[16];
 		char nodo_nuevo[3];
-	} t_nodo;
+		char nombre[12];
+	} t_nodo_fs;
+
+	typedef struct {
+		int fd_marta;
+		t_msjcxd* mensaje_recv;
+	} t_arg_pedidomarta;
+
 
 	void f_thread_escuchas(void* param);
+	void f_thread_pedidosmarta(void* param);
+	t_link_element* list_find_element(t_list *self, bool(*condition)(void*, int), int* index, int fichero_a_buscar);
 
 #endif /* SRC_THREAD_ESCUCHAS_H_ */

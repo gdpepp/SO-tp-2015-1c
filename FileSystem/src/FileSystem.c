@@ -11,7 +11,6 @@
 #include <unistd.h>
 #include "thread_escuchas.h"
 #include <cxdcommons/general.h>
-#include <cxdcommons/sockets.h>
 #include "consola.h"
 #include "opciones_consola.h"
 //#include <bson.h>
@@ -46,7 +45,7 @@ int main(int argc, char **argv) {
 	limpiarPantalla();
 	system("clear");
 
-	CONSOLA:
+	for(;;){
 		printConsola(); // imprime la consola
 		opcion = getchar(); // obtiene la opcion deseada
 
@@ -56,46 +55,40 @@ int main(int argc, char **argv) {
 				default:
 					printf("Opción incorrecta...\n");
 					sleep(1);
-					goto CONSOLA;
 					break;
 				case '1':
-					//formatMDFS();
-					//break;
+					formatMDFS();
+					break;
 				case '2':
-					//ABMArchive();
-					//break;
+					ABMArchive();
+					break;
 				case '3':
-					//ABMDirectory();
-					//break;
+					ABMDirectory();
+					break;
 				case '4':
-					//copyFSLocalArchiveToMDFS();
-					//break;
+					copyFSLocalArchiveToMDFS();
+					break;
 				case '5':
-					//copyMDFSArchiveToFSLocal();
-					//break;
+					copyMDFSArchiveToFSLocal();
+					break;
 				case '6':
-					//archiveMD5();
-					//break;
+					archiveMD5();
+					break;
 				case '7':
-					//ABMArchiveBlocks();
-					//break;
+					ABMArchiveBlocks();
+					break;
 				case '8':
-					//addNode(); ?????  el nodo se conecta al fs
-					//break;
+					addNode();
+					break;
 				case '9':
-					//deleteNode(); ??? el nodo se conecta al fs
-					printf("Opcion %c.\nEspera 3seg para continuar...\n", opcion);
-					sleep(3);
-					limpiarPantalla();
-					goto CONSOLA;
+					deleteNode();
 					break;
 				case 'q':
 					goto FIN;
 					break;
 			}
-		}else{
-			goto CONSOLA;
 		}
+	}
 
 
 
@@ -103,7 +96,7 @@ int main(int argc, char **argv) {
 		textoColor(NORMAL);
 		limpiarPantalla();
 
-		pthread_join( thread_escuchas, NULL);
+		pthread_cancel( thread_escuchas );
 
 		return EXIT_SUCCESS;
 }
@@ -129,28 +122,3 @@ int printConsola(void) {
 	printf("\033[u");
 	return EXIT_SUCCESS;
 }
-
-
-//___________________________hasta aca parte consola___________________________
-
-/*
-SendNodesBlocksByArchiveName(char *archiveName){
-
-	init struct nodosAEnviar
-		// struct key-value de diccionario de nodos (nodo i, status nodo i)
-		// status archivo (0 completo, 1 incompleto, -1 error)
-
-	buscar en el FS el archivo
-	recorrer diccionario nodos
-		if (archiveExistsIn(Node))
-			addNode(nodoi, nodosAEnviar)
-
-	verifyArchiveStatus(nodosAEnviar)
-	//verifica si con los nodos que se encuentra en el struct el archivo esta completo.
-
-	generar mensaje t_msjcxd mensaje con struct nodosAEnviar
-	serializar t_msjcxd
-
-	send(mensaje serializado)
-}
-*/
