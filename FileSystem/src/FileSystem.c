@@ -13,8 +13,7 @@
 #include <cxdcommons/general.h>
 #include "consola.h"
 #include "opciones_consola.h"
-//#include <bson.h>
-//#include <mongoc.h>
+#include "mongodb.h"
 
 int estadoFS = 0;
 int cantNodosMinimos;
@@ -60,28 +59,30 @@ int main(int argc, char **argv) {
 					formatMDFS();
 					break;
 				case '2':
-					ABMArchive();
+					//ABMArchive();
 					break;
 				case '3':
-					ABMDirectory();
+					//ABMDirectory();
 					break;
 				case '4':
-					copyFSLocalArchiveToMDFS();
+					//copyFSLocalArchiveToMDFS();
 					break;
 				case '5':
-					copyMDFSArchiveToFSLocal();
+					//copyMDFSArchiveToFSLocal();
 					break;
 				case '6':
-					archiveMD5();
+					//archiveMD5();
+					iniciar_mongo();
+					sleep(3);
 					break;
 				case '7':
-					ABMArchiveBlocks();
+					//ABMArchiveBlocks();
 					break;
 				case '8':
-					addNode();
+					//addNode();
 					break;
 				case '9':
-					deleteNode();
+					//deleteNode();
 					break;
 				case 'q':
 					goto FIN;
@@ -89,8 +90,6 @@ int main(int argc, char **argv) {
 			}
 		}
 	}
-
-
 
 	FIN:
 		textoColor(NORMAL);
@@ -102,6 +101,7 @@ int main(int argc, char **argv) {
 }
 
 int printConsola(void) {
+	limpiarPantalla();
 	pTitulo("Consola de FileSystem");
 	pWhiteLine();
 	pOptionLine('1', "Formatear el MDFS.");

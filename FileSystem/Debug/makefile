@@ -26,7 +26,7 @@ endif
 all: FileSystem
 
 dependents:
-	-cd /home/ezeyuske/workspace/tp-2015-1c-compilopordinero/cxd-commons/Debug && $(MAKE) clean all
+	-cd /home/ezeyuske/workspace/tp-2015-1c-compilopordinero/cxd-commons/Debug && $(MAKE) all
 
 # Tool invocations
 FileSystem: $(OBJS) $(USER_OBJS) /home/ezeyuske/workspace/tp-2015-1c-compilopordinero/cxd-commons/Debug/libcxd-commons.so
