@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <string.h>
+#include <stdbool.h>
 #include <commons/config.h>
 #include <commons/string.h>
 #include "general.h"
@@ -47,4 +48,18 @@ t_config* readConfigurationFile(char **argv) {
 	config = config_create(config_path);
 	free(config_path);
 	return config;
+}
+
+t_log* iniciarLog(char **argv, char *program_name, bool is_active_console, t_log_level level){
+	int len;
+	t_log* log;
+	char* log_path = string_new();
+
+	string_append(&log_path, getAppPath(argv[0]));
+	len = strlen(log_path);
+	log_path = string_substring_until(log_path, len-5);
+	string_append(&log_path, "/src/log.txt");
+	log = log_create(log_path, program_name, is_active_console, level);
+
+	return log;
 }

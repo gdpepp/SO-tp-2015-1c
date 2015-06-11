@@ -5,6 +5,8 @@
 #ifndef CXD_GENERAL_H_
 #define CXD_GENERAL_H_
 
+	#include <commons/log.h>
+
 	/**
 	 * @NAME: getAppPath
 	 * @DESC: Devuelve ruta absoluta del ejecutable
@@ -20,5 +22,16 @@
 	 * 		argv - parametro de main
 	 */
 	t_config* readConfigurationFile(char **argv);
+
+	/**
+	 * @NAME: iniciarLog
+	 * @DESC: inicia el archivo log
+	 * @PARAMS:
+	 * 		argv - parametro de main
+	 * 		program_name - nombre del programa
+	 * 		is_active_console - si se imprime en pantalla
+	 * 		level - nivel de detalle minimo a loguear
+	 */
+	t_log* iniciarLog(char **argv, char *program_name, bool is_active_console, t_log_level level);
 
 #endif

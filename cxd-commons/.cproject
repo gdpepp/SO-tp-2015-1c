@@ -34,13 +34,27 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.so.debug.option.optimization.level.2088833079" name="Optimization Level" superClass="gnu.c.compiler.so.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.so.debug.option.debugging.level.588727752" name="Debug Level" superClass="gnu.c.compiler.so.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.misc.pic.1007690689" name="Position Independent Code (-fPIC)" superClass="gnu.c.compiler.option.misc.pic" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.misc.other.229383670" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0" valueType="string"/>
+								<option id="gnu.c.compiler.option.include.paths.301111725" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/local/include/libmongoc-1.0"/>
+									<listOptionValue builtIn="false" value="/usr/local/include/libbson-1.0"/>
+								</option>
+								<option id="gnu.c.compiler.option.dialect.std.1836206577" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" value="gnu.c.compiler.dialect.default" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.misc.verbose.1780666457" name="Verbose (-v)" superClass="gnu.c.compiler.option.misc.verbose" value="true" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.2073431067" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.so.debug.927860131" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.so.debug">
 								<option defaultValue="true" id="gnu.c.link.so.debug.option.shared.2044422897" name="Shared (-shared)" superClass="gnu.c.link.so.debug.option.shared" valueType="boolean"/>
 								<option id="gnu.c.link.option.libs.427400586" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="commons"/>
+									<listOptionValue builtIn="false" value="rt"/>
+									<listOptionValue builtIn="false" value="mongoc-1.0"/>
+									<listOptionValue builtIn="false" value="bson-1.0"/>
 								</option>
+								<option id="gnu.c.link.option.paths.2045335943" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="/usr/local/lib"/>
+								</option>
+								<option id="gnu.c.link.option.userobjs.1317367026" name="Other objects" superClass="gnu.c.link.option.userobjs" valueType="userObjs"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.1659208132" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -51,6 +65,24 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.so.debug.654581372" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.so.debug">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.641169519" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<folderInfo id="cdt.managedbuild.config.gnu.so.debug.191599208.583894276" name="/" resourcePath="cxdcommons">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.so.debug.241809972" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.so.debug" unusedChildren="">
+							<targetPlatform id="cdt.managedbuild.target.gnu.platform.so.debug" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.so.debug"/>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1045288940" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1155762933"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.190916765" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.1281958614"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.so.debug.775307592" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.so.debug.1769056426">
+								<option id="gnu.c.compiler.option.misc.other.1122914286" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0" valueType="string"/>
+								<option id="gnu.c.compiler.option.include.paths.1088395061" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths"/>
+								<option id="gnu.c.compiler.option.dialect.std.1806364591" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" value="gnu.c.compiler.dialect.default" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1990516418" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.so.debug.544569775" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.so.debug.927860131"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.so.debug.469444507" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.so.debug.263604725"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.so.debug.1273548292" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.so.debug.654581372">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.478343657" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
