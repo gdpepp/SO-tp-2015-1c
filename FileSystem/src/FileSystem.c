@@ -9,25 +9,33 @@
  */
 
 #include <unistd.h>
+#include <stdbool.h>
 #include "thread_escuchas.h"
 #include <cxdcommons/general.h>
 #include "consola.h"
 #include "opciones_consola.h"
-#include "mongodb.h"
 
 int estadoFS = 0;
 int cantNodosMinimos;
 t_list* listaNodos_limbo;
 t_list* listaNodos_ok;
 
+pthread_mutex_t log_file = PTHREAD_MUTEX_INITIALIZER;
+t_log* logger;
+
 int printConsola(void);
 
 int main(int argc, char **argv) {
+	char *program_name = "FileSystem";
 	int iret;
 	char opcion;
 	t_config *config;
 	pthread_t thread_escuchas;
 	
+	pthread_mutex_lock( &log_file );
+	logger = iniciarLog(argv, program_name, false, LOG_LEVEL_INFO);
+	pthread_mutex_unlock( &log_file );
+
 	listaNodos_limbo = list_create();
 	listaNodos_ok = list_create();
 
@@ -72,8 +80,6 @@ int main(int argc, char **argv) {
 					break;
 				case '6':
 					//archiveMD5();
-					iniciar_mongo();
-					sleep(3);
 					break;
 				case '7':
 					//ABMArchiveBlocks();
@@ -96,7 +102,7 @@ int main(int argc, char **argv) {
 		limpiarPantalla();
 
 		pthread_cancel( thread_escuchas );
-
+		log_destroy(logger);
 		return EXIT_SUCCESS;
 }
 

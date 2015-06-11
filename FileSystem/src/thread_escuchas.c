@@ -10,12 +10,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include "thread_escuchas.h"
+#include <cxdcommons/general.h>
 
 static bool condicion(void *param, int fichero_a_buscar);
 
 void f_thread_escuchas(void* param){
 	extern t_list* listaNodos_limbo;
 	extern t_list* listaNodos_ok;
+	extern pthread_mutex_t log_file;
+	extern t_log* logger;
+
 	int port, listener, fdmax, i;
 	int fd_marta = 666;
 	int new_fd, addrlen, iret2;
@@ -62,6 +66,9 @@ void f_thread_escuchas(void* param){
 						fprintf(stderr,"Error - pthread_create() return code: %d\n",iret2);
 						exit(EXIT_FAILURE);
 					}
+					pthread_mutex_lock( &log_file );
+					log_info(logger, "MaRTA pidio lista de bloque del archivo %s.", dictionary_get(mensaje_recv->properties, "arch_name"));
+					pthread_mutex_unlock( &log_file );
 				}else{ // posible mensaje
 					mensaje_recv = recvMsj(i);
 					if( strcmp(mensaje_recv->action, "conexion_cerrada") != 0 ){ // tenemos mensaje de nodo
@@ -75,13 +82,22 @@ void f_thread_escuchas(void* param){
 
 							if( strcmp(nodo->nodo_nuevo, "SI") ){ // agrego nodo a la lista temporal
 								list_add(listaNodos_limbo, nodo);
+								pthread_mutex_lock( &log_file );
+								log_info(logger, "Se conecto un nuevo nodo.");
+								pthread_mutex_unlock( &log_file );
 							}else{ // tratamiento de resureccion de nodo.
 								/* (tratamiento de mongoDB) */
 								list_add(listaNodos_ok, nodo);
+								pthread_mutex_lock( &log_file );
+								log_info(logger, "Se conecto un nodo ya existente.");
+								pthread_mutex_unlock( &log_file );
 							}
 							free(nodo);
 						}else if( strcmp(mensaje_recv->action, "conexion_marta") != 0 ){
 							fd_marta = i; // identificacion del fichero de MaRTA
+							pthread_mutex_lock( &log_file );
+							log_info(logger, "Se conecto MaRTA.");
+							pthread_mutex_unlock( &log_file );
 						}
 					}else{ // conexión cerrada por el nodo o MaRTA
 						if( i != fd_marta ){
@@ -97,6 +113,17 @@ void f_thread_escuchas(void* param){
 							}
 							close(i);
 							FD_CLR(i, &read_fds);
+							pthread_mutex_lock( &log_file );
+							log_info(logger, "Se desconecto un nodo.");
+							pthread_mutex_unlock( &log_file );
+						}else{
+							// se deconecto MaRTA :S
+							/* (...) */
+							close(fd_marta);
+							FD_CLR(fd_marta, &read_fds);
+							pthread_mutex_lock( &log_file );
+							log_info(logger, "Se desconecto MaRTA.");
+							pthread_mutex_unlock( &log_file );
 						}
 					}
 					free(mensaje_recv);
