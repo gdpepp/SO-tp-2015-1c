@@ -25,7 +25,7 @@ int printConsolaOpcion3();
 void opcion3() {
 
 	char opcion;
-	char ruta[100], ruta2[100];
+	char ruta[255], ruta2[255];
 	struct stat st = {0};
 
 CONSOLA:
@@ -121,7 +121,6 @@ int printConsolaOpcion3(void) {
 int getlinea(char* ruta) {
 	char c;
 	int i;
-	fflush(0);
 	for(i=0; ((c = getchar()) == '\n'); i++)
 		ruta[i] = c;
 		return EXIT_SUCCESS;
