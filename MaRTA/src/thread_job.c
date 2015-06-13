@@ -17,6 +17,8 @@ void thread_job_function(void* param){
 	arg = (t_arg_thread_job*) param;
 
 	fd_filesystem = conectarCon(arg->ip_filesystem, arg->port_filesystem);
+	mensaje_send = iniciarMsj("conexion_marta");
+	sendMsj(mensaje_send, fd_filesystem);
 
 	mensaje_recv = recvMsj(arg->fd_job);
 	if( strcmp(mensaje_recv->action, "conexion_cerrada") != 0 ){ // tenemos mensaje de job

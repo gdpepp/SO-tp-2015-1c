@@ -40,6 +40,14 @@ int main(int argc, char **argv){
 	ip_fs = config_get_string_value(config, "IP_FILESYSTEM");
 	port_fs = config_get_int_value(config, "PUERTO_FILESYSTEM");
 
+	/*
+	 * REVISAR Y CHEQUEAR FS COMO CONEXION UNICA Y PASAR A HILO FICHERO_FS
+	 *
+	 * fd_filesystem = conectarCon(arg->ip_filesystem, arg->port_filesystem);
+	 * mensaje_send = iniciarMsj("conexion_marta");
+	 * sendMsj(mensaje_send, fd_filesystem);
+	 */
+
 	for(;;){
 		if( select(fdmax+1, &read_fds, NULL, NULL, NULL) == -1 ){
 			perror("select");
@@ -50,6 +58,7 @@ int main(int argc, char **argv){
 			if( ( newjob = accept(listener_jobs, (struct sockaddr *)&remoteaddr, (socklen_t *)&addrlen) ) == -1 ){
 				perror("accept");
 			}else{
+				/* REVISAR Y CHEQUEAR FS COMO CONEXION UNICA Y PASAR A HILO FICHERO_FS */
 				strcpy(arg_thread_job->ip_filesystem, ip_fs);
 				arg_thread_job->port_filesystem = port_fs;
 				arg_thread_job->fd_job = newjob;
