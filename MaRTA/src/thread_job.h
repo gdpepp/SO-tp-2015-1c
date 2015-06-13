@@ -9,8 +9,7 @@
 	#include <pthread.h>
 
 	typedef struct {
-		char ip_filesystem[16];
-		int port_filesystem;
+		int fd_filesystem;
 		int fd_job;
 	} t_arg_thread_job;
 

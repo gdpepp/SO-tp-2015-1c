@@ -30,6 +30,7 @@
 
 	void f_thread_escuchas(void* param);
 	void f_thread_pedidosmarta(void* param);
-	t_link_element* list_find_element(t_list *self, bool(*condition)(void*, int), int* index, int fichero_a_buscar);
+	
+	t_link_element* list_find_element(t_list *self, bool(*condition)(void*, void*), int* index, void* argumento);
 
 #endif /* SRC_THREAD_ESCUCHAS_H_ */
